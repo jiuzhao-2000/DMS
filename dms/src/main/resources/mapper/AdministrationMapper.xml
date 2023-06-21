@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.AdministrationMapper">
+    <insert id="createAdministration" parameterType="Administration">
+        insert into administration(aid, bid, workTime)
+        values (#{aid}, #{bid}, #{workTime})
+    </insert>
+    <delete id="deleteAdministration">
+        delete
+        from administration
+        where aid = #{aid}
+          and bid = #{bid}
+    </delete>
+    <update id="updateAdministration" parameterType="Administration">
+        update administration
+        set workTime=#{workTime}
+        where aId = #{aid}
+          and bid = #{bid}
+    </update>
+    <select id="queryAdministrationListByAid" parameterType="String" resultType="Administration">
+        select *
+        from administration
+        where aId = #{aid}
+    </select>
+    <select id="queryAdministrationList" parameterType="Administration" resultType="Administration">
+        select *
+        from administration
+        where aId = #{aid}
+          and bId = #{bid};
+    </select>
+    <select id="queryBidListByAid" parameterType="String" resultType="int">
+        select bid
+        from administration
+        where aid = #{aid}
+    </select>
+</mapper>

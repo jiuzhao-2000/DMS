@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.MaintainedMapper">
+    <insert id="createMaintained" parameterType="Maintained">
+        insert into maintained (mId, wId, maintainTime)
+        VALUES (#{mid}, #{wid}, #{maintainTime})
+    </insert>
+    <delete id="deleteMaintained">
+        delete
+        from maintained
+        where mid = #{mid}
+          and wId = #{wid}
+    </delete>
+    <delete id="deleteMaintainedByWid" parameterType="int">
+        delete
+        from maintained
+        where wId = #{wid}
+    </delete>
+    <update id="updateMaintained" parameterType="Maintained">
+        update maintained
+        set maintainTime=#{maintainTime}
+        where mId = #{mid}
+          and wId = #{wid}
+    </update>
+    <select id="queryMaintained" resultType="Maintained">
+        select *
+        from maintained
+    </select>
+    <select id="queryMaintainedByMid" resultType="Maintained">
+        select *
+        from maintained
+        where mId = #{mid}
+    </select>
+    <select id="queryMaintainedByWid" resultType="Maintained">
+        select *
+        from maintained
+        where wId = #{wid}
+    </select>
+    <select id="queryMaintainedByMidAndWid" resultType="Maintained">
+        select *
+        from maintained
+        where mId = #{mid}
+          and wId = #{wid}
+    </select>
+    <select id="queryWorkNumByMid" resultType="int" parameterType="int">
+        select count(1)
+        from maintained
+        where mid = #{mid}
+    </select>
+</mapper>

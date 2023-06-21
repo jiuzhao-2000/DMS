@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.VisitorMapper">
+    <insert id="createVisitor" parameterType="Visitor">
+        insert into visitor (vId, name, phone)
+        VALUES (#{vid}, #{name}, #{phone})
+    </insert>
+    <delete id="deleteVisitor" parameterType="String">
+        delete
+        from visitor
+        where vId = #{vid}
+    </delete>
+    <update id="updateVisitor" parameterType="Visitor">
+        update visitor
+        <set>
+            <if test="v.name!=null and v.name!=''">
+                name=#{v.name},
+            </if>
+            <if test="v.phone!=null and v.phone!=''">
+                phone=#{v.phone}
+            </if>
+        </set>
+        where vid=#{v.vid}
+    </update>
+    <select id="queryVisitor" parameterType="Visitor" resultType="Visitor">
+        select * from visitor
+        <where>
+            <if test="v.name!=null and v.name!=''">
+                name like concat('%',#{v.name},'%')
+            </if>
+            <if test="v.phone!=null and v.phone!=''">
+                and phone=#{v.phone}
+            </if>
+        </where>
+    </select>
+    <select id="queryVisitorByVid" parameterType="String" resultType="Visitor">
+        select *
+        from visitor
+        where vid = #{vid}
+    </select>
+    <select id="queryVisitorNumByVid" parameterType="String" resultType="int">
+        select count(1)
+        from visitor
+        where vid = #{vid}
+    </select>
+</mapper>

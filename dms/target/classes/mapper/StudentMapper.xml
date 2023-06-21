@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.StudentMapper">
+    <insert id="createStudent" parameterType="Student">
+        insert into student (sId, pwd, name, sex, bId, dId, bedId, state, phone)
+        VALUES (#{sid}, #{pwd}, #{name}, #{sex}, #{bid}, #{did}, #{bedId}, #{state}, #{phone})
+    </insert>
+    <delete id="deleteStudent" parameterType="String">
+        delete
+        from student
+        where sId = #{sid}
+    </delete>
+    <update id="updateStudent" parameterType="Student">
+        update student
+        <set>
+            <if test="s.pwd!=null and s.pwd!=''">
+                pwd=#{s.pwd},
+            </if>
+            <if test="s.name!=null and s.name!=''">
+                name = #{s.name},
+            </if>
+            <if test='s.sex!=null and (s.sex=="男" or s.sex=="女")'>
+                sex=#{s.sex},
+            </if>
+            <if test="s.bid>0">
+                bid=#{s.bid},
+            </if>
+            <if test="s.did>0">
+                did=#{s.did},
+            </if>
+            <if test="s.bedId>0">
+                bedId=#{s.bedId},
+            </if>
+            <if test="s.state!=null and s.state!=''">
+                state=#{s.state},
+            </if>
+            <if test="s.phone!=null and s.phone!=''">
+                phone=#{s.phone}
+            </if>
+        </set>
+        where sid=#{s.sid}
+    </update>
+    <update id="updateStudentPwdBySid">
+        update student
+        set pwd=#{pwd}
+        where sid = #{sid}
+    </update>
+    <update id="updateStudentPhoneBySid">
+        update student
+        set phone=#{phone}
+        where sid = #{sid}
+    </update>
+    <select id="queryStudent" resultType="Student">
+        select *
+        from student
+    </select>
+    <select id="queryStudentBySid" parameterType="String" resultType="Student">
+        select *
+        from student
+        where sid = #{sid}
+    </select>
+    <select id="queryStudentNumBySidPwd" parameterType="Student" resultType="int">
+        select count(1)
+        from student
+        where sid = #{sid}
+          and pwd = #{pwd}
+    </select>
+    <select id="queryStudentNameBySid" parameterType="String" resultType="String">
+        select name
+        from student
+        where sid = #{sid}
+    </select>
+    <select id="queryStudentBidBySid" parameterType="String" resultType="int">
+        select bid
+        from student
+        where sid = #{sid}
+    </select>
+    <select id="queryStudentByBid" parameterType="int" resultType="Student">
+        select *
+        from student
+        where bid = #{bid}
+    </select>
+    <select id="queryStudentByName" parameterType="String" resultType="Student">
+        select *
+        from student
+        where name like concat('%', #{name}, '%')
+    </select>
+    <select id="queryStudentBySidName" resultType="Student">
+        select *
+        from student
+        where sid = #{sid}
+          or name like concat('%', #{name}, '%')
+    </select>
+</mapper>

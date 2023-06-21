@@ -1,0 +1,25 @@
+server:
+  port: 9901
+spring:
+  datasource:
+    password: 123456789jxy
+    url: jdbc:mysql://localhost:3306/dms?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+  profiles:
+    #选择环境
+    active: dev
+    # springboot 高版本处理 swagger 空指针问题
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+# mybatis
+mybatis:
+  type-aliases-package: com.jiuzhao73.pojo.model
+  mapper-locations: classpath:mapper/*.xml
+# pageHelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countsql

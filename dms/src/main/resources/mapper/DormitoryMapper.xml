@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.DormitoryMapper">
+    <insert id="createDormitory" parameterType="Dormitory">
+        insert into dormitory (dId, bId, occupancy, bedNum, waterAndElectricity, isPay, health)
+        VALUES (#{did}, #{bid}, #{occupancy}, #{bedNum}, #{waterAndElectricity}, #{isPay}, #{health})
+    </insert>
+    <delete id="deleteDormitory">
+        delete
+        from dormitory
+        where dId = #{did}
+          and bId = #{bid}
+    </delete>
+    <update id="updateDormitory" parameterType="Dormitory">
+        update dormitory
+        <set>
+            isPay=#{d.isPay},
+            <if test="d.occupancy>-1">
+                occupancy=#{d.occupancy},
+            </if>
+            <if test="d.bedNum>0">
+                bedNum=#{d.bedNum},
+            </if>
+            <if test="d.waterAndElectricity>0">
+                waterAndElectricity=#{d.waterAndElectricity},
+            </if>
+            <if test="d.health>0">
+                health=#{d.health}
+            </if>
+        </set>
+        where did=#{d.did} and bid=#{d.bid}
+    </update>
+    <select id="queryDormitoryByBid" parameterType="int" resultType="Dormitory">
+        select *
+        from dormitory
+        where bId = #{bid}
+    </select>
+    <select id="queryDormitoryByAid" parameterType="String" resultType="Dormitory">
+        select d.did, d.bid, d.occupancy, d.bedNum, d.waterAndElectricity, d.isPay, d.health
+        from dormitory d
+                 join administration a on d.bid = a.bid
+        where aid = #{aid}
+    </select>
+    <select id="queryDormitory" resultType="Dormitory">
+        select *
+        from dormitory
+        where dId = #{did}
+          and bId = #{bid}
+    </select>
+</mapper>

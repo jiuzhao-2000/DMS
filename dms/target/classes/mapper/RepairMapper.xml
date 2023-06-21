@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.RepairMapper">
+    <insert id="createRepair" parameterType="Repair">
+        insert into repair (rId, wId, question)
+        VALUES (#{rid}, #{wid}, #{question})
+    </insert>
+    <delete id="deleteRepair">
+        delete
+        from repair
+        where rId = #{rid}
+          and wid = #{wid}
+    </delete>
+    <delete id="deleteRepairByRid" parameterType="int">
+        delete
+        from repair
+        where rId = #{rid}
+    </delete>
+    <delete id="deleteRepairByWid" parameterType="int">
+        delete
+        from repair
+        where wId = #{wid}
+    </delete>
+    <update id="updateRepair" parameterType="Repair">
+        update repair
+        set question=#{question}
+        where rid = #{rid}
+          and wId = #{wid}
+    </update>
+    <select id="queryRepair" resultType="Repair">
+        select *
+        from repair
+        where rId = #{rid}
+          and wId = #{wid}
+    </select>
+    <select id="queryRepairListByRid" resultType="Repair" parameterType="int">
+        select *
+        from repair
+        where rid = #{rid}
+    </select>
+    <select id="queryWidByRid" resultType="int" parameterType="int">
+        select wid
+        from repair
+        where rid = #{rid}
+    </select>
+    <select id="queryRepairList" resultType="Repair">
+        select *
+        from repair
+    </select>
+    <select id="queryRepairListByBidDid" resultType="Repair">
+        select *
+        from repair
+                 join wealth w on repair.wid = w.wid
+        where w.bid = #{bid}
+          and w.did = #{did}
+    </select>
+</mapper>

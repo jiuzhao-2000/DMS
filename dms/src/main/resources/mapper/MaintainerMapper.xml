@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.MaintainerMapper">
+    <insert id="createMaintainer" parameterType="Maintainer">
+        insert into maintainer (mId, pwd, name, phone)
+        VALUES (#{mid}, #{pwd}, #{name}, #{phone})
+    </insert>
+    <delete id="deleteMaintainer" parameterType="int">
+        delete
+        from maintainer
+        where mId = #{mid}
+    </delete>
+    <update id="updateMaintainer" parameterType="Maintainer">
+        update maintainer
+        <set>
+            <if test="m.name!=null and m.name!=''">
+                name=#{m.name},
+            </if>
+            <if test="m.phone!=null and m.phone!=''">
+                phone=#{m.phone}
+            </if>
+        </set>
+        where mid=#{m.mid}
+    </update>
+    <update id="updateMaintainerPwd">
+        update maintainer
+        set pwd=#{pwd}
+        where mid = #{mid}
+    </update>
+    <select id="queryMaintainer" resultType="Maintainer">
+        select *
+        from maintainer
+    </select>
+    <select id="queryMaintainerByMid" parameterType="int" resultType="Maintainer">
+        select *
+        from maintainer
+        where mId = #{mid}
+    </select>
+    <select id="queryMaintainerByMidPwd" parameterType="Maintainer" resultType="int">
+        select count(1)
+        from maintainer
+        where mid = #{mid}
+          and pwd = #{pwd}
+    </select>
+</mapper>

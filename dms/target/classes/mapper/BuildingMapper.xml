@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.BuildingMapper">
+    <insert id="createBuilding" parameterType="Building">
+        insert into building (bId, phone, name, location)
+        VALUES (#{bid}, #{phone}, #{name}, #{location})
+    </insert>
+    <delete id="deleteBuilding" parameterType="int">
+        delete
+        from building
+        where bId = #{bid}
+    </delete>
+    <update id="updateBuilding" parameterType="Building">
+        update building
+        <set>
+            <if test="b.phone != null and b.phone != '' ">
+                phone=#{b.phone},
+            </if>
+            <if test="b.name != null and b.name != ''">
+                name=#{b.name},
+            </if>
+            <if test="b.location != null and b.location != ''">
+                location=#{b.location}
+            </if>
+        </set>
+        where bid=#{b.bid}
+    </update>
+    <select id="queryBuildingList" resultType="Building">
+        select *
+        from building
+    </select>
+    <select id="queryBuildingListByName" resultType="Building" parameterType="String">
+        select *
+        from building
+        where name like concat('%', #{name}, '%')
+    </select>
+    <select id="queryBuildingListByFullName" resultType="Building" parameterType="String">
+        select *
+        from building
+        where name = #{name}
+    </select>
+    <select id="queryBuildingByBid" parameterType="int" resultType="Building">
+        select *
+        from building
+        where bid = #{bid}
+    </select>
+    <select id="queryBuildingByBidFullName" resultType="Building">
+        select *
+        from building
+        where bid = #{bid}
+          and name = #{name}
+    </select>
+    <select id="queryNameByBid" parameterType="int" resultType="String">
+        select name
+        from building
+        where bid = #{bid}
+    </select>
+    <select id="queryBuildingListByAid" resultType="Building" parameterType="String">
+        select building.bid, building.phone, building.name, building.location
+        from building
+                 join administration a on building.bid = a.bid
+        where aid = #{aid}
+    </select>
+    <select id="queryBuildingNameListByAid" resultType="String" parameterType="String">
+        select building.name
+        from building
+                 join administration a on building.bid = a.bid
+        where a.aid = #{aid}
+    </select>
+</mapper>

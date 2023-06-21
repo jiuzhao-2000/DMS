@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.VisitMapper">
+    <insert id="createVisit" parameterType="Visit">
+        insert into visit (sId, vId, visitTime, visitedTime, relationship)
+        VALUES (#{sid}, #{vid}, #{visitTime}, #{visitedTime}, #{relationship})
+    </insert>
+    <delete id="deleteVisit">
+        delete
+        from visit
+        where sId = #{sid}
+          and vId = #{vid}
+    </delete>
+    <update id="updateVisit" parameterType="Visit">
+        update visit
+        <set>
+            <if test="v.visitTime!=null">
+                visitTime=#{v.visitTime},
+            </if>
+            <if test="v.visitedTime!=null">
+                visitedTime=#{v.visitedTime},
+            </if>
+            <if test="v.relationship!=null and v.relationship!=''">
+                relationship=#{v.relationship}
+            </if>
+        </set>
+        where sid=#{v.sid}
+    </update>
+    <select id="queryVisit" resultType="Visit">
+        select *
+        from visit
+        where sid = #{sid}
+          and vid = #{vid}
+    </select>
+    <select id="queryVisitBySid" parameterType="String" resultType="Visit">
+        select *
+        from visit
+        where sid = #{sid}
+    </select>
+</mapper>

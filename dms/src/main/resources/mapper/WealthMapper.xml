@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.WealthMapper">
+    <insert id="createWealth" parameterType="Wealth">
+        insert into wealth (wId, value, name, bId, dId)
+        VALUES (#{wid}, #{value}, #{name}, #{bid}, #{did})
+    </insert>
+    <delete id="deleteWealth">
+        delete
+        from wealth
+        where wId = #{wid}
+    </delete>
+    <update id="updateWealth" parameterType="Wealth">
+        update wealth
+        <set>
+            <if test="w.value!=null and w.value!=''">
+                value=#{w.value},
+            </if>
+            <if test="w.name!=null and w.name!=''">
+                name=#{w.name},
+            </if>
+            <if test="w.bid>0">
+                bid=#{w.bid},
+            </if>
+            <if test="w.did>0">
+                did=#{w.did}
+            </if>
+        </set>
+        where wid=#{w.wid}
+    </update>
+    <select id="queryWealthList" parameterType="Wealth" resultType="Wealth">
+        select * from wealth
+        <where>
+            <if test="w.wid>0">
+                wid=#{w.wid}
+            </if>
+            <if test="w.value>0">
+                and value=#{w.value}
+            </if>
+            <if test="w.name!=null and w.name!=''">
+                and name like concat('%',#{w.name},'%')
+            </if>
+            <if test="w.bid>0">
+                and bid=#{w.bid}
+            </if>
+            <if test="w.did">
+                and did=#{w.did}
+            </if>
+        </where>
+    </select>
+    <select id="queryWealthListByBidDid" parameterType="int" resultType="Wealth">
+        select *
+        from wealth
+        where bid = #{bid}
+          and did = #{did}
+    </select>
+    <select id="queryWealthByWid" resultType="Wealth">
+        select *
+        from wealth
+        where wid = #{wid}
+    </select>
+</mapper>

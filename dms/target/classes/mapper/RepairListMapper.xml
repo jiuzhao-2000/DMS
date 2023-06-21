@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuzhao73.mapper.RepairListMapper">
+    <insert id="createRepairList" parameterType="RepairList">
+        insert into repairlist (rId, repairTime)
+        values (#{rid}, #{repairTime})
+    </insert>
+    <delete id="deleteRepairList" parameterType="int">
+        delete
+        from repairlist
+        where rId = #{rid}
+    </delete>
+    <update id="updateRepairList" parameterType="RepairList">
+        update repairlist
+        set repairTime=#{repairTime}
+        where rId = #{rid}
+    </update>
+    <select id="queryRepairList" resultType="RepairList">
+        select *
+        from repairlist
+    </select>
+    <select id="queryRepairListByRid" resultType="RepairList" parameterType="int">
+        select *
+        from repairlist
+        where rId = #{rid}
+    </select>
+    <select id="queryMaxRid" resultType="int">
+        select max(rid)
+        from repairlist
+    </select>
+</mapper>
